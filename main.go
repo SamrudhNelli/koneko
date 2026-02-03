@@ -65,29 +65,44 @@ func main() {
 		gtk4layershell.SetAnchor(window, gtk4layershell.LayerShellEdgeLeft, true)
 		transparentWindow(window)
 
+		var pic *gtk.Picture
 		fullImg, _, err := image.Decode(bytes.NewReader(imgBytes))
 		if err == nil {
-			spriteImg := cropImage(fullImg, 0, 0, 32, 32)
+			spriteImg := cropImage(fullImg, 64, 0, 32, 32)
 			texture := imageToTexture(spriteImg)
 			if texture != nil {
-				pic := gtk.NewPictureForPaintable(texture)
+				pic = gtk.NewPictureForPaintable(texture)
 				pic.SetCanShrink(false)
 				pic.SetContentFit(gtk.ContentFitContain)
-
 				window.SetChild(pic)
 			}
 		} else {
 			log.Fatal(err)
 		}
 
-		glib.TimeoutAdd(100, func() bool {
-			x, y, err := hypr.GetCursorPos()
+		var lastX int = 60
+		var lastY int = 60
+		var lastSpriteX int = 64
+		var lastSpriteY int = 0
+		glib.TimeoutAdd(125, func() bool {
+			cursorX, cursorY, err := hypr.GetCursorPos()
 			if err != nil {
 				log.Println(err)
 				return true
 			}
-			gtk4layershell.SetMargin(window, gtk4layershell.LayerShellEdgeTop, min(y, y - 16))
-			gtk4layershell.SetMargin(window, gtk4layershell.LayerShellEdgeLeft, min(x, x - 16))
+			
+			spriteX, spriteY, currX, currY := game.GetSpriteCoord(lastX, lastY, cursorX, cursorY)
+
+			if spriteX != lastSpriteX || spriteY != lastSpriteY {
+				spriteImg := cropImage(fullImg, spriteX, spriteY, 32, 32)
+				newTexture := imageToTexture(spriteImg)
+				pic.SetPaintable(newTexture)
+			}
+
+			if lastY != currY || lastX != currX {
+				gtk4layershell.SetMargin(window, gtk4layershell.LayerShellEdgeTop, min(currY, currY - 16))
+				gtk4layershell.SetMargin(window, gtk4layershell.LayerShellEdgeLeft, min(currX, currY - 16))
+			}
 			return true
 		})
 
