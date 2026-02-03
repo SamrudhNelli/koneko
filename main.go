@@ -7,6 +7,7 @@ import (
 	"image/png"
 	_ "image/png"
 	"koneko/source/hypr"
+	"koneko/source/game"
 	"log"
 	"os"
 
@@ -80,8 +81,8 @@ func main() {
 			log.Fatal(err)
 		}
 
-		var lastX int = 60
-		var lastY int = 60
+		var lastX int = 100
+		var lastY int = 100
 		var lastSpriteX int = 64
 		var lastSpriteY int = 0
 		glib.TimeoutAdd(125, func() bool {
@@ -90,19 +91,24 @@ func main() {
 				log.Println(err)
 				return true
 			}
-			
+
 			spriteX, spriteY, currX, currY := game.GetSpriteCoord(lastX, lastY, cursorX, cursorY)
 
 			if spriteX != lastSpriteX || spriteY != lastSpriteY {
 				spriteImg := cropImage(fullImg, spriteX, spriteY, 32, 32)
 				newTexture := imageToTexture(spriteImg)
 				pic.SetPaintable(newTexture)
+				lastSpriteX = spriteX
+				lastSpriteY = spriteY
 			}
 
 			if lastY != currY || lastX != currX {
 				gtk4layershell.SetMargin(window, gtk4layershell.LayerShellEdgeTop, min(currY, currY - 16))
 				gtk4layershell.SetMargin(window, gtk4layershell.LayerShellEdgeLeft, min(currX, currY - 16))
+				lastY = currY
+				lastX = currX
 			}
+
 			return true
 		})
 
