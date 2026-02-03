@@ -104,7 +104,7 @@ func main() {
 
 			if lastY != currY || lastX != currX {
 				gtk4layershell.SetMargin(window, gtk4layershell.LayerShellEdgeTop, min(currY, currY - 16))
-				gtk4layershell.SetMargin(window, gtk4layershell.LayerShellEdgeLeft, min(currX, currY - 16))
+				gtk4layershell.SetMargin(window, gtk4layershell.LayerShellEdgeLeft, min(currX, currX - 16))
 				lastY = currY
 				lastX = currX
 			}

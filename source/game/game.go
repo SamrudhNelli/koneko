@@ -24,36 +24,68 @@ var konekoSpeed int = 16
 var frameCnt int = 0
 
 func GetSpriteCoord(lastX, lastY, cursorX, cursorY int) (spriteX, spriteY, currX, currY int) {
+	frameCnt++
 	diffX := max(lastX - cursorX, cursorX - lastX)
 	diffY := max(lastY - cursorY, cursorY - lastY)
-	if diffY <= 16 || diffX <= 16 {
-		spriteX = spriteSets["idle"][frameCnt % len(spriteSets["idle"])][0]
-		spriteY = spriteSets["idle"][frameCnt % len(spriteSets["idle"])][1]
-		currX = lastX
-		currY = lastY
+	spriteX = spriteSets["idle"][frameCnt % len(spriteSets["idle"])][0]
+	spriteY = spriteSets["idle"][frameCnt % len(spriteSets["idle"])][1]
+	currX = lastX
+	currY = lastY
+	if diffY <= 16 && diffX <= 16 {
 		return
 	} else if  diffX > konekoSpeed && diffY > konekoSpeed {
-		// NE, SE, SW, NW
 		if lastX > cursorX && lastY > cursorY {
-
+			// NW
+			spriteX = spriteSets["NW"][frameCnt % len(spriteSets["NW"])][0]
+			spriteY = spriteSets["NW"][frameCnt % len(spriteSets["NW"])][1]
+			currX = lastX - konekoSpeed
+			currY = lastY - konekoSpeed
 		} else if lastX < cursorX && lastY < cursorY {
-
+			// SE
+			spriteX = spriteSets["SE"][frameCnt % len(spriteSets["SE"])][0]
+			spriteY = spriteSets["SE"][frameCnt % len(spriteSets["SE"])][1]
+			currX = lastX + konekoSpeed
+			currY = lastY + konekoSpeed
 		} else if lastX > cursorX && lastY < cursorY {
-
+			// SW
+			spriteX = spriteSets["SW"][frameCnt % len(spriteSets["SW"])][0]
+			spriteY = spriteSets["SW"][frameCnt % len(spriteSets["SW"])][1]
+			currX = lastX - konekoSpeed
+			currY = lastY + konekoSpeed
 		} else {
-
+			// NE
+			spriteX = spriteSets["NE"][frameCnt % len(spriteSets["NE"])][0]
+			spriteY = spriteSets["NE"][frameCnt % len(spriteSets["NE"])][1]
+			currX = lastX + konekoSpeed
+			currY = lastY - konekoSpeed
 		}
 	} else if diffX > konekoSpeed {
-		// E, W
 		if lastX > cursorX {
-
+			// W
+			spriteX = spriteSets["W"][frameCnt % len(spriteSets["W"])][0]
+			spriteY = spriteSets["W"][frameCnt % len(spriteSets["W"])][1]
+			currX = lastX - konekoSpeed
+			currY = lastY
 		} else {
-
+			// E
+			spriteX = spriteSets["E"][frameCnt % len(spriteSets["E"])][0]
+			spriteY = spriteSets["E"][frameCnt % len(spriteSets["E"])][1]
+			currX = lastX + konekoSpeed
+			currY = lastY
 		}
 	} else if diffY > konekoSpeed {
-		// N, S
 		if lastY > cursorY {
-
+			// N
+			spriteX = spriteSets["N"][frameCnt % len(spriteSets["N"])][0]
+			spriteY = spriteSets["N"][frameCnt % len(spriteSets["N"])][1]
+			currX = lastX
+			currY = lastY - konekoSpeed
+		} else {
+			// S
+			spriteX = spriteSets["S"][frameCnt % len(spriteSets["S"])][0]
+			spriteY = spriteSets["S"][frameCnt % len(spriteSets["S"])][1]
+			currX = lastX
+			currY = lastY + konekoSpeed
 		}
 	}
 	return
