@@ -6,8 +6,10 @@ package wlr
 
 import (
 	"sync"
+
 	. "github.com/neurlang/wayland/wl"
 )
+
 // ZwlrLayerShellV1ErrorRole means wl_surface has another role
 const ZwlrLayerShellV1ErrorRole = 0
 
@@ -69,40 +71,47 @@ const ZwlrLayerSurfaceV1AnchorRight = 8
 type ZwlrLayerShellV1 struct {
 	BaseProxy
 }
+
 // NewZwlrLayerShellV1 is a constructor for the ZwlrLayerShellV1 object
 func NewZwlrLayerShellV1(ctx *Context) *ZwlrLayerShellV1 {
 	ret := new(ZwlrLayerShellV1)
 	ctx.Register(ret)
 	return ret
 }
+
 // GetLayerSurface create a layer_surface from a surface
 func (p *ZwlrLayerShellV1) GetLayerSurface(Surface *Surface, Output *Output, Layer uint32, Namespace string) (*ZwlrLayerSurfaceV1, error) {
 	retId := NewZwlrLayerSurfaceV1(p.Context())
 	return retId, p.Context().SendRequest(p, 0, retId, Surface, Output, Layer, Namespace)
 }
+
 // Destroy destroy the layer_shell object
-func (p *ZwlrLayerShellV1) Destroy() (error) {
-	
+func (p *ZwlrLayerShellV1) Destroy() error {
+
 	return p.Context().SendRequest(p, 1)
 }
+
 // Dispatch dispatches event for object ZwlrLayerShellV1
 func (p *ZwlrLayerShellV1) Dispatch(event *Event) {
 	switch event.Opcode {
 
 	}
 }
+
 // ZwlrLayerSurfaceV1 layer metadata interface
 type ZwlrLayerSurfaceV1 struct {
 	BaseProxy
-	mu sync.RWMutex
+	mu                                  sync.RWMutex
 	privateZwlrLayerSurfaceV1Configures map[ZwlrLayerSurfaceV1ConfigureHandler]struct{}
-	privateZwlrLayerSurfaceV1Closeds map[ZwlrLayerSurfaceV1ClosedHandler]struct{}
+	privateZwlrLayerSurfaceV1Closeds    map[ZwlrLayerSurfaceV1ClosedHandler]struct{}
 }
+
 // initZwlrLayerSurfaceV1 initializes the ZwlrLayerSurfaceV1 object's handler maps
 func (ret *ZwlrLayerSurfaceV1) initZwlrLayerSurfaceV1() {
 	ret.privateZwlrLayerSurfaceV1Configures = make(map[ZwlrLayerSurfaceV1ConfigureHandler]struct{})
 	ret.privateZwlrLayerSurfaceV1Closeds = make(map[ZwlrLayerSurfaceV1ClosedHandler]struct{})
 }
+
 // NewZwlrLayerSurfaceV1 is a constructor for the ZwlrLayerSurfaceV1 object
 func NewZwlrLayerSurfaceV1(ctx *Context) *ZwlrLayerSurfaceV1 {
 	ret := new(ZwlrLayerSurfaceV1)
@@ -110,56 +119,67 @@ func NewZwlrLayerSurfaceV1(ctx *Context) *ZwlrLayerSurfaceV1 {
 	ctx.Register(ret)
 	return ret
 }
+
 // SetSize sets the size of the surface
-func (p *ZwlrLayerSurfaceV1) SetSize(Width uint32, Height uint32) (error) {
-	
+func (p *ZwlrLayerSurfaceV1) SetSize(Width uint32, Height uint32) error {
+
 	return p.Context().SendRequest(p, 0, Width, Height)
 }
+
 // SetAnchor configures the anchor point of the surface
-func (p *ZwlrLayerSurfaceV1) SetAnchor(Anchor uint32) (error) {
-	
+func (p *ZwlrLayerSurfaceV1) SetAnchor(Anchor uint32) error {
+
 	return p.Context().SendRequest(p, 1, Anchor)
 }
+
 // SetExclusiveZone configures the exclusive geometry of this surface
-func (p *ZwlrLayerSurfaceV1) SetExclusiveZone(Zone int32) (error) {
-	
+func (p *ZwlrLayerSurfaceV1) SetExclusiveZone(Zone int32) error {
+
 	return p.Context().SendRequest(p, 2, Zone)
 }
+
 // SetMargin sets a margin from the anchor point
-func (p *ZwlrLayerSurfaceV1) SetMargin(Top int32, Right int32, Bottom int32, Left int32) (error) {
-	
+func (p *ZwlrLayerSurfaceV1) SetMargin(Top int32, Right int32, Bottom int32, Left int32) error {
+
 	return p.Context().SendRequest(p, 3, Top, Right, Bottom, Left)
 }
+
 // SetKeyboardInteractivity requests keyboard events
-func (p *ZwlrLayerSurfaceV1) SetKeyboardInteractivity(KeyboardInteractivity uint32) (error) {
-	
+func (p *ZwlrLayerSurfaceV1) SetKeyboardInteractivity(KeyboardInteractivity uint32) error {
+
 	return p.Context().SendRequest(p, 4, KeyboardInteractivity)
 }
+
 // GetPopup assign this layer_surface as an xdg_popup parent
-func (p *ZwlrLayerSurfaceV1) GetPopup(Popup *XdgPopup) (error) {
-	
+func (p *ZwlrLayerSurfaceV1) GetPopup(Popup *XdgPopup) error {
+
 	return p.Context().SendRequest(p, 5, Popup)
 }
+
 // AckConfigure ack a configure event
-func (p *ZwlrLayerSurfaceV1) AckConfigure(Serial uint32) (error) {
-	
+func (p *ZwlrLayerSurfaceV1) AckConfigure(Serial uint32) error {
+
 	return p.Context().SendRequest(p, 6, Serial)
 }
+
 // Destroy destroy the layer_surface
-func (p *ZwlrLayerSurfaceV1) Destroy() (error) {
-	
+func (p *ZwlrLayerSurfaceV1) Destroy() error {
+
 	return p.Context().SendRequest(p, 7)
 }
+
 // SetLayer change the layer of the surface
-func (p *ZwlrLayerSurfaceV1) SetLayer(Layer uint32) (error) {
-	
+func (p *ZwlrLayerSurfaceV1) SetLayer(Layer uint32) error {
+
 	return p.Context().SendRequest(p, 8, Layer)
 }
+
 // SetExclusiveEdge set the edge the exclusive zone will be applied to
-func (p *ZwlrLayerSurfaceV1) SetExclusiveEdge(Edge uint32) (error) {
-	
+func (p *ZwlrLayerSurfaceV1) SetExclusiveEdge(Edge uint32) error {
+
 	return p.Context().SendRequest(p, 9, Edge)
 }
+
 // Dispatch dispatches event for object ZwlrLayerSurfaceV1
 func (p *ZwlrLayerSurfaceV1) Dispatch(event *Event) {
 	switch event.Opcode {
@@ -187,20 +207,21 @@ func (p *ZwlrLayerSurfaceV1) Dispatch(event *Event) {
 
 	}
 }
+
 // ZwlrLayerSurfaceV1ConfigureEvent is the suggest a surface change
 type ZwlrLayerSurfaceV1ConfigureEvent struct {
-	// Serial is the 
+	// Serial is the
 	Serial uint32
-	// Width is the 
+	// Width is the
 	Width uint32
-	// Height is the 
+	// Height is the
 	Height uint32
-
 }
+
 // ZwlrLayerSurfaceV1ClosedEvent is the surface should be closed
 type ZwlrLayerSurfaceV1ClosedEvent struct {
-
 }
+
 // ZwlrLayerSurfaceV1ConfigureHandler is the handler interface for ZwlrLayerSurfaceV1ConfigureEvent
 type ZwlrLayerSurfaceV1ConfigureHandler interface {
 	HandleZwlrLayerSurfaceV1Configure(ZwlrLayerSurfaceV1ConfigureEvent)
@@ -220,8 +241,9 @@ func (p *ZwlrLayerSurfaceV1) RemoveConfigureHandler(h ZwlrLayerSurfaceV1Configur
 	p.mu.Lock()
 	defer p.mu.Unlock()
 
-	delete (p.privateZwlrLayerSurfaceV1Configures, h)
+	delete(p.privateZwlrLayerSurfaceV1Configures, h)
 }
+
 // ZwlrLayerSurfaceV1ClosedHandler is the handler interface for ZwlrLayerSurfaceV1ClosedEvent
 type ZwlrLayerSurfaceV1ClosedHandler interface {
 	HandleZwlrLayerSurfaceV1Closed(ZwlrLayerSurfaceV1ClosedEvent)
@@ -241,7 +263,7 @@ func (p *ZwlrLayerSurfaceV1) RemoveClosedHandler(h ZwlrLayerSurfaceV1ClosedHandl
 	p.mu.Lock()
 	defer p.mu.Unlock()
 
-	delete (p.privateZwlrLayerSurfaceV1Closeds, h)
+	delete(p.privateZwlrLayerSurfaceV1Closeds, h)
 }
 
 // Dummy struct to satisfy the compiler
