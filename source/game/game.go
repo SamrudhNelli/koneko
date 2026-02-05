@@ -31,7 +31,7 @@ func GetSpriteCoord(lastX, lastY, cursorX, cursorY int) (spriteX, spriteY, currX
 	spriteY = spriteSets["idle"][frameCnt % len(spriteSets["idle"])][1]
 	currX = lastX
 	currY = lastY
-	if diffY <= 16 && diffX <= 16 {
+	if diffY <= 25 && diffX <= 25 {
 		return
 	} else if  diffX > konekoSpeed && diffY > konekoSpeed {
 		if lastX > cursorX && lastY > cursorY {
