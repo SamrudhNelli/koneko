@@ -6,7 +6,7 @@ package wlr
 
 import (
 	"sync"
-
+	. "github.com/neurlang/wayland/wl"
 )
 // ZwlrLayerShellV1ErrorRole means wl_surface has another role
 const ZwlrLayerShellV1ErrorRole = 0
@@ -243,3 +243,6 @@ func (p *ZwlrLayerSurfaceV1) RemoveClosedHandler(h ZwlrLayerSurfaceV1ClosedHandl
 
 	delete (p.privateZwlrLayerSurfaceV1Closeds, h)
 }
+
+// Dummy struct to satisfy the compiler
+type XdgPopup struct{}
