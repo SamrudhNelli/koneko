@@ -41,7 +41,7 @@ func init() {
 
 func SetupWindows() *WindowsState {
 	state := &WindowsState{Width: 32, Height: 32}
-	state.loadSprites("../assets/koneko.png")
+	state.loadSprites("assets/koneko.png")
 
 	instance := win.GetModuleHandle(nil)
 	className, _ := syscall.UTF16PtrFromString("konekoClass")
@@ -82,7 +82,7 @@ func SetupWindows() *WindowsState {
 }
 
 func (s *WindowsState) UpdatePosition(x, y, spriteX, spriteY int) {
-	spriteIndex := (spriteY - 1)*8 + (spriteX - 1)
+	spriteIndex := spriteY*8 + spriteX
 	copy(s.PixelData[:], s.Frames[spriteIndex])
 
 	ptDst := win.POINT{X: int32(x), Y: int32(y)}
